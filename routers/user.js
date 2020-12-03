@@ -11,8 +11,14 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
-    res.status(200).json(newUser);
+    const { fullName, email, password } = req.body;
+    console.log(`${fullName}, ${email}, ${password}`);
+    if (!fullName || !password || !email) {
+      res.status(400).send("missing parametr");
+    } else {
+      const newUser = await User.create({ fullName, email, password });
+      res.status(200).json(newUser);
+    }
   } catch (e) {
     next(e);
   }

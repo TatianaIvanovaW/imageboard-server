@@ -5,9 +5,11 @@ const Image = require("../models").image;
 const router = new Router();
 
 router.get("/", async (req, res) => {
+  const limit = Math.min(req.query.limit || 25, 500);
+  const offset = req.query.offset || 0;
   try {
-    const images = await Image.findAll();
-    res.status(200).send(images);
+    const images = await Image.findAndCountAll({ limit, offset });
+    res.status(200).send({ images: images.rows, total: images.count });
   } catch (e) {
     next(e);
   }
