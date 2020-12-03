@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: { type: DataTypes.STRING, allowNull: false },
       url: DataTypes.STRING,
+      userId: DataTypes.STRING,
     },
     {
       sequelize,
