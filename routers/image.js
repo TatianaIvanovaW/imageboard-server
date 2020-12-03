@@ -1,12 +1,16 @@
 const { Router } = require("express");
+const jwt = require("../auth/jwt");
+const { auth } = require("../auth/middleware");
 
 const Image = require("../models").image;
+const User = require("../models").user;
 
 const router = new Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res, next) => {
   const limit = Math.min(req.query.limit || 25, 500);
   const offset = req.query.offset || 0;
+
   try {
     const images = await Image.findAndCountAll({ limit, offset });
     res.status(200).send({ images: images.rows, total: images.count });
