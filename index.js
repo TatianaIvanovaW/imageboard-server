@@ -3,6 +3,7 @@ const app = express();
 const port = 4000;
 const users = require("./routers/user");
 const imags = require("./routers/image");
+const login = require("./routers/auth");
 const jsonParser = express.json();
 
 app.use(jsonParser);
@@ -14,5 +15,6 @@ app.use(corsMiddleWare());
 
 app.use("/users", users);
 app.use("/images", imags);
+app.use(login);
 
 app.listen(port, console.log(`listening on port ${port}...`));
